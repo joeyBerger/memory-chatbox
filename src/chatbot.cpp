@@ -11,8 +11,6 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
-    std::cout << "ChatBot Constructor No Memeory" << std::endl;
-    
     // invalidate data handles
     _image = nullptr;
     _chatLogic = nullptr;
@@ -22,7 +20,7 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor Test" << std::endl;
+    std::cout << "ChatBot Constructor" << std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
@@ -35,7 +33,6 @@ ChatBot::ChatBot(std::string filename)
 ChatBot::~ChatBot()
 {
     std::cout << "ChatBot Destructor" << std::endl;
-    if(_image != NULL) {}
 
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
@@ -48,6 +45,68 @@ ChatBot::~ChatBot()
 
 //// TODO
 ////
+
+// ChatBot Copy Constructor for the Rule of Five
+ChatBot::ChatBot(const ChatBot &source)
+{
+    std::cout << "ChatBot copy constructor" << std::endl;
+    _image = new wxBitmap(*source._image);
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+}
+
+ChatBot &ChatBot::operator=(const ChatBot &source)
+{
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+    if(this == &source) return *this;    
+    delete _image;
+    _image = new wxBitmap(*source._image);
+
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+
+    return *this;
+}
+ChatBot::ChatBot(ChatBot &&source)
+{
+    std::cout << "Moving constructed instance " << &source << " to instance " << this << std::endl;
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    source._image = NULL;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._currentNode = nullptr;
+}
+
+
+ChatBot &ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "Moving assigned instance " << &source << " to instance " << this << std::endl;
+    if (this == &source) return *this;
+	
+    delete _image;
+  
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    source._image = NULL;
+    source._chatLogic = nullptr;
+    source._rootNode = nullptr;
+    source._currentNode = nullptr;
+  
+    return *this;
+}
 
 ////
 //// EOF TODO

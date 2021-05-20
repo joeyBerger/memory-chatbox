@@ -5,8 +5,7 @@
 #include <string>
 #include "chatbot.h"
 
-#include <memory>   //added, std::unique_ptr<ChatLogic> _chatLogic(new ChatLogic());
-
+#include <memory>
 // forward declarations
 class GraphEdge;
 
@@ -22,10 +21,9 @@ private:
     
 
     // data handles (not owned)
-//     std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
-    std::vector<std::unique_ptr<GraphEdge>> _parentEdges;
-    
-    ChatBot *_chatBot;
+    std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
+    //// ChatBot *_chatBot;
+    ChatBot _chatBot;
 
     ////
     //// EOF TODO
@@ -48,14 +46,16 @@ public:
 
     // proprietary functions
     void AddToken(std::string token); // add answers to list
-//     void AddEdgeToParentNode(GraphEdge *edge);
-    void AddEdgeToParentNode(std::unique_ptr<GraphEdge> edge);
+     void AddEdgeToParentNode(GraphEdge *edge);
+    //void AddEdgeToParentNode(std::unique_ptr<GraphEdge> edge);
     void AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge);
 
     //// TODO
     ////
 
-    void MoveChatbotHere(ChatBot *chatbot);
+//     void MoveChatbotHere(ChatBot *chatbot);
+//     void MoveChatbotHere(std::unique_ptr<ChatBot> chatbot);
+    void MoveChatbotHere(ChatBot chatbot);
 
     ////
     //// EOF TODO

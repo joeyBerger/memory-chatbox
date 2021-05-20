@@ -28,32 +28,16 @@ public:
     ChatBot(std::string filename); // constructor WITH memory allocation
     ~ChatBot();
 
-    //// TODO : Move to cpp
+    //// TODO
     ////
-    ChatBot(ChatBot &&source)
-    {
-        std::cout << "Moving constructed instance " << &source << " to instance " << this << std::endl;
-        *_image = *source._image;
-//         *_currentNode = *source._currentNode;
-//         *_rootNode = *source._rootNode;
-//         *_chatLogic = *source._chatLogic;      
-        source._image = nullptr;
-    }
     
-	ChatBot &operator=(ChatBot &&source)
-    {
-        std::cout << "Moving assigned instance " << &source << " to instance " << this << std::endl;
-        if (this == &source)
-            return *this;
+    ChatBot(ChatBot &&source);
+    
+    ChatBot &operator=(ChatBot &&source);
+	
+    ChatBot(const ChatBot &source);             
+    ChatBot &operator=(const ChatBot &source);
 
-        delete[] _image;
-
-        _image = source._image;
-
-        source._image = nullptr;
-
-        return *this;
-    }
     ////
     //// EOF TODO
 
@@ -61,7 +45,7 @@ public:
     void SetCurrentNode(GraphNode *node);
     void SetRootNode(GraphNode *rootNode) { _rootNode = rootNode; }
     void SetChatLogicHandle(ChatLogic *chatLogic) { _chatLogic = chatLogic; }
-    ChatLogic* GetChatLogicHandle() { return _chatLogic; }
+    //ChatLogic* GetChatLogicHandle() { return _chatLogic; }
     wxBitmap *GetImageHandle() { return _image; }
 
     // communication
