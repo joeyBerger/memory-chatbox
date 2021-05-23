@@ -8,7 +8,6 @@
 #include "graphedge.h"
 #include "chatbot.h"
 
-// constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
     // invalidate data handles
@@ -17,12 +16,8 @@ ChatBot::ChatBot()
     _rootNode = nullptr;
 }
 
-// constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor" << std::endl;
-    
-    // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
 
@@ -32,10 +27,8 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor" << std::endl;
-
     // deallocate heap memory
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    if(_image != NULL)
     {
         delete _image;
         _image = NULL;
@@ -43,13 +36,9 @@ ChatBot::~ChatBot()
      
 }
 
-//// TODO
-////
-
 // ChatBot Copy Constructor for the Rule of Five
 ChatBot::ChatBot(const ChatBot &source)
 {
-    std::cout << "ChatBot copy constructor" << std::endl;
     _image = new wxBitmap(*source._image);
     _chatLogic = source._chatLogic;
     _rootNode = source._rootNode;
@@ -58,7 +47,6 @@ ChatBot::ChatBot(const ChatBot &source)
 
 ChatBot &ChatBot::operator=(const ChatBot &source)
 {
-    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
     if(this == &source) return *this;    
     delete _image;
     _image = new wxBitmap(*source._image);
@@ -71,7 +59,6 @@ ChatBot &ChatBot::operator=(const ChatBot &source)
 }
 ChatBot::ChatBot(ChatBot &&source)
 {
-    std::cout << "Moving constructed instance " << &source << " to instance " << this << std::endl;
     _image = source._image;
     _chatLogic = source._chatLogic;
     _rootNode = source._rootNode;
@@ -88,7 +75,6 @@ ChatBot::ChatBot(ChatBot &&source)
 
 ChatBot &ChatBot::operator=(ChatBot &&source)
 {
-    std::cout << "Moving assigned instance " << &source << " to instance " << this << std::endl;
     if (this == &source) return *this;
 	
     delete _image;
@@ -107,9 +93,6 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
   
     return *this;
 }
-
-////
-//// EOF TODO
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
